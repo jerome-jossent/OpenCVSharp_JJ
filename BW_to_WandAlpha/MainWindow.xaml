@@ -1,0 +1,100 @@
+﻿<Window xmlns:Standard_UC_JJO="clr-namespace:Standard_UC_JJO;assembly=Standard_UC_JJO"  x:Class="BW_to_WandAlpha.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BW_to_WandAlpha" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        x:Name="mainWindow"
+        >
+    <Window.Background>
+        <ImageBrush ImageSource="Images/damier.bmp" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,32,32"/>
+    </Window.Background>
+
+    <Grid>
+        <Canvas Name="GameArea" ClipToBounds="True" >
+
+        </Canvas>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <Standard_UC_JJO:PickFolder_JJO Height="30" _folder="{Binding _folder_IN, ElementName=mainWindow, Mode=TwoWay}" />
+                        <Standard_UC_JJO:PickFolder_JJO Height="30" _folder="{Binding _folder_OUT, ElementName=mainWindow, Mode=TwoWay}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="Read directory" Click="btn_ReadDirectory_click"/>
+                            <Button Grid.Column="1" Content="Save selected" Click="btn_SaveSelected_click"/>
+                        </Grid>
+                    </StackPanel>
+
+                </Grid>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" Background="White">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="tb_b" Width="60" Margin="5"/>
+                            <Slider Minimum="0" Maximum="255" Name="sld_b" ValueChanged="slds_management" Width="256" IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="tb_g" Width="60" Margin="5"/>
+                            <Slider Minimum="0" Maximum="255" Name="sld_g" ValueChanged="slds_management" Width="256" IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="tb_r" Width="60" Margin="5"/>
+                            <Slider Minimum="0" Maximum="255" Name="sld_r" ValueChanged="slds_management" Width="256" IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Alpha" Width="60" Margin="5"/>
+                            <CheckBox x:Name="ckb_not_a" Content="Invert" VerticalAlignment="Center" IsChecked="True"
+                                  Checked="ckb_management" Unchecked="ckb_management"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Separator/>
+
+                    <StackPanel Orientation="Vertical" >
+                        <TextBlock Text="Filtre passe bande"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="tb_threshold_1" Width="60" Margin="5"/>
+                            <xctk:RangeSlider Minimum="0" Maximum="255" Name="filter" Width="256"  IsSnapToTickEnabled="True" 
+                                              LowerValue="50" HigherValue="200" 
+                                              HigherValueChanged="filter_values_Changed" LowerValueChanged="filter_values_Changed"/>
+                            <TextBlock x:Name="tb_threshold_2" Width="60" Margin="5"/> 
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" >
+                <ListBox x:Name="lb" Height="130" SelectionChanged="lb_SelectionChanged" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image x:Name="img_before" />
+                <Image x:Name="img_after" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
