@@ -142,11 +142,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Advise_IHM\Advise_Common\Advise_Common.csproj">
+    <ProjectReference Include="..\..\advise-ihm\Advise_IHM\Advise_Common\Advise_Common.csproj">
       <Project>{18e0bc33-7956-4a8b-aa3e-f087c4f18ef1}</Project>
       <Name>Advise_Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Advise_IHM\ImageProcessing\ImageProcessing.csproj">
+    <ProjectReference Include="..\..\advise-ihm\Advise_IHM\ImageProcessing\ImageProcessing.csproj">
       <Project>{45e48cad-d8c8-4a1c-bc81-0f81b0b5b1d8}</Project>
       <Name>ImageProcessing</Name>
     </ProjectReference>

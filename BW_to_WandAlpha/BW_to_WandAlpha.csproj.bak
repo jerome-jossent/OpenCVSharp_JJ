@@ -39,7 +39,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>B&amp;W_to_W&amp;Alpha.ico</ApplicationIcon>
+    <ApplicationIcon>B&amp;W_to_W&amp;Alpha %282%29.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenCvSharp">
@@ -136,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="B&amp;W_to_W&amp;Alpha.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="B&amp;W_to_W&amp;Alpha %282%29.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\colorpicker.png">
