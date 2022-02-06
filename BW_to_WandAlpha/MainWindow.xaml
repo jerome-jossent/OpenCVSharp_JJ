@@ -12,6 +12,7 @@
         Title="Black and White → White and Alpha (Transparent)" 
         Height="600" Width="600"
         x:Name="mainWindow"
+        Loaded="mainWindow_Loaded"
         >
     <Window.Background>
         <ImageBrush ImageSource="Images/damier.bmp" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,32,32"/>
@@ -27,6 +28,7 @@
         <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -72,20 +74,8 @@
                 </StackPanel>
             </Grid>
 
-            <!--Image ColorPick-->
-            <Grid Grid.Column="1" Name="_ColorsGrid" >
-                <Image x:Name="_Colors" Source="/Images/colorpicker.png" MouseLeftButtonDown="Colors_MouseLeftButtonDown"
-                           RenderOptions.BitmapScalingMode="Fant"
-                           StretchDirection="Both"  Stretch="Fill"/>
-
-                <Canvas>
-                    <Polyline Name="_lineNO" Stroke="Black" StrokeThickness="1"/>
-                    <Polyline Name="_lineNE" Stroke="Black" StrokeThickness="1" />
-                    <Polyline Name="_lineSE" Stroke="Black" StrokeThickness="1" />
-                    <Polyline Name="_lineSO" Stroke="Black" StrokeThickness="1" />
-                </Canvas>
-                
-            </Grid>
+            <!--ColorPicker-->
+            <local:ColorPickerJJ Grid.Column="2" x:Name="_colorPickerJJ" _Target_Length="5" />
         </Grid>
 
         <Grid Grid.Row="1" >
@@ -97,6 +87,8 @@
                 </ListBox.ItemsPanel>
             </ListBox>
         </Grid>
+
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

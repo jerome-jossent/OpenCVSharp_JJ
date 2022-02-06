@@ -23,7 +23,6 @@ namespace BW_to_WandAlpha
         Mat source;
         Dictionary<string, Mat> mats;
         System.Windows.Media.Color color = Color.FromRgb(0, 0, 0);
-        Mat colors;
 
         #region BINDING
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,10 +60,16 @@ namespace BW_to_WandAlpha
         {
             InitializeComponent();
             DataContext = this;
-            colors = new Mat("Images\\colorpicker.png");
-            _colorNew += MainWindow__colorNew; ;
         }
 
+         void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _colorPickerJJ._ColorNew += ColorNew;
+            //_colorPickerJJ._SetMouseSelection(0.5, 0.5);
+            _colorPickerJJ._SetColor(Colors.Magenta);
+        }
+
+        #region UI
         private void btn_ReadDirectory_click(object sender, MouseButtonEventArgs e)
         {
             mats = new Dictionary<string, Mat>();
@@ -86,6 +91,41 @@ namespace BW_to_WandAlpha
                 System.Threading.Thread.Sleep(1);
             }
         }
+
+        void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProcessOnSelectedItem();
+        }
+
+        private void ckb_management(object sender, RoutedEventArgs e)
+        {
+            if (source != null)
+                ProcessOnSelectedItem();
+        }
+
+        private void btn_SaveSelected_click(object sender, MouseButtonEventArgs e)
+        {
+            string msg;
+            try
+            {
+                ListBoxItem item = (ListBoxItem)lb.SelectedItem;
+                string path = item.ToolTip.ToString();
+                Mat mat = mats[path];
+                Mat mat_out = ImageProcessing(mat);
+
+                string filename = System.IO.Path.GetFileNameWithoutExtension(path);
+                string fullfilename = _folder_OUT + "\\" + filename + ".png";
+                mat_out.SaveImage(fullfilename);
+                msg = "File created : \n\n" + fullfilename;
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+            }
+            MessageBox.Show(msg);
+        }
+
+        #endregion
 
         ListBoxItem newItem(Mat mat, string fichier)
         {
@@ -118,17 +158,6 @@ namespace BW_to_WandAlpha
             return newmat;
         }
 
-        private void ckb_management(object sender, RoutedEventArgs e)
-        {
-            if (source != null)
-                ProcessOnSelectedItem();
-        }
-
-        void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ProcessOnSelectedItem();
-        }
-
         void ProcessOnSelectedItem()
         {
             if (lb.SelectedItem == null) return;
@@ -139,81 +168,9 @@ namespace BW_to_WandAlpha
             img_after.Source = conversion.ToImageSource(mat_out);
         }
 
-        private void btn_SaveSelected_click(object sender, MouseButtonEventArgs e)
+        void ColorNew(object sender, ColorPickerJJ.NewColorEventArgs e)
         {
-            string msg;
-            try
-            {
-                ListBoxItem item = (ListBoxItem)lb.SelectedItem;
-                string path = item.ToolTip.ToString();
-                Mat mat = mats[path];
-                Mat mat_out = ImageProcessing(mat);
-
-                string filename = System.IO.Path.GetFileNameWithoutExtension(path);
-                string fullfilename = _folder_OUT + "\\" + filename + ".png";
-                mat_out.SaveImage(fullfilename);
-                msg = "File created : \n\n" + fullfilename;
-            }
-            catch (Exception ex)
-            {
-                msg = ex.Message;
-            }
-            MessageBox.Show(msg);
-        }
-
-        void Colors_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MouseMove += Colors_MouseMove;
-            MouseLeftButtonUp += Colors_MouseLeftButtonUp;
-        }
-
-        void Colors_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MouseMove -= Colors_MouseMove;
-            MouseLeftButtonUp -= Colors_MouseLeftButtonUp;
-        }
-
-        public class NewColorEventArgs : EventArgs
-        {
-            public Color color { get; private set; }
-            public NewColorEventArgs(Color color)
-            {
-                this.color = color;
-            }
-        }
-
-        public event EventHandler<NewColorEventArgs> _colorNew;
-
-        void Colors_MouseMove(object sender, MouseEventArgs e)
-        {
-            //relative position
-            System.Windows.Point ui_pos = e.GetPosition(_Colors);
-            int x = (int)(ui_pos.X / _ColorsGrid.ActualWidth * colors.Width);
-            int y = (int)(ui_pos.Y / _ColorsGrid.ActualHeight * colors.Height);
-
-            //get pixel
-            Vec3b px = colors.Get<Vec3b>(y, x);
-
-            //read pixel to make color
-            Color color = Color.FromArgb(255, px[2], px[1], px[0]);
-            _SetTarget(ui_pos);
-            this.color = color;
-            _colorNew?.Invoke(null, new NewColorEventArgs(color));
-        }
-
-        private void _SetTarget(System.Windows.Point ui_pos)
-        {
-            int d = 10;
-            double x = ui_pos.X;
-            double y = ui_pos.Y;
-            _lineNO.Points = new PointCollection(new List<System.Windows.Point> { new System.Windows.Point(x - d, y - 1), new System.Windows.Point(x - 1, y - 1), new System.Windows.Point(x - 1, y - d) });
-            _lineNE.Points = new PointCollection(new List<System.Windows.Point> { new System.Windows.Point(x + d, y - 1), new System.Windows.Point(x + 1, y - 1), new System.Windows.Point(x + 1, y - d) });
-            _lineSE.Points = new PointCollection(new List<System.Windows.Point> { new System.Windows.Point(x - d, y + 1), new System.Windows.Point(x - 1, y + 1), new System.Windows.Point(x - 1, y + d) });
-            _lineSO.Points = new PointCollection(new List<System.Windows.Point> { new System.Windows.Point(x + d, y + 1), new System.Windows.Point(x + 1, y + 1), new System.Windows.Point(x + 1, y + d) });
-        }
-
-        private void MainWindow__colorNew(object sender, NewColorEventArgs e)
-        {         
+            color = e.color;
             _colorRGB.Content = "RGB (" + e.color.R + ", " + e.color.G + ", " + e.color.B + ")";
             _ColorPicker.Background = new SolidColorBrush(e.color);
             ProcessOnSelectedItem();
