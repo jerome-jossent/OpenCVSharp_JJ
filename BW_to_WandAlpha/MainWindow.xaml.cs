@@ -64,9 +64,9 @@ namespace BW_to_WandAlpha
 
          void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _colorPickerJJ._ColorNew += ColorNew;
-            //_colorPickerJJ._SetMouseSelection(0.5, 0.5);
-            _colorPickerJJ._SetColor(Colors.Magenta);
+            _colorPickerJJO._ColorNew += ColorNew;
+            //_colorPickerJJO._SetMouseSelection(0.5, 0.5);
+            _colorPickerJJO._SetColor(Colors.Magenta);
         }
 
         #region UI
@@ -168,7 +168,7 @@ namespace BW_to_WandAlpha
             img_after.Source = conversion.ToImageSource(mat_out);
         }
 
-        void ColorNew(object sender, ColorPickerJJ.NewColorEventArgs e)
+        void ColorNew(object sender, Standard_UC_JJO.ColorPickerJJO.NewColorEventArgs e)
         {
             color = e.color;
             _colorRGB.Content = "RGB (" + e.color.R + ", " + e.color.G + ", " + e.color.B + ")";

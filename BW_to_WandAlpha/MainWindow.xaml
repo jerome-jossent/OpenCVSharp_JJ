@@ -1,4 +1,4 @@
-﻿<Window 
+﻿<Window xmlns:BW_to_WandAlpha="clr-namespace:BW_to_WandAlpha;assembly=Standard_UC_JJO"  
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         xmlns:Standard_UC_JJO="clr-namespace:Standard_UC_JJO;assembly=Standard_UC_JJO"  
         x:Class="BW_to_WandAlpha.MainWindow"
@@ -75,7 +75,7 @@
             </Grid>
 
             <!--ColorPicker-->
-            <local:ColorPickerJJ Grid.Column="2" x:Name="_colorPickerJJ" _Target_Length="5" />
+            <Standard_UC_JJO:ColorPickerJJO Grid.Column="2" x:Name="_colorPickerJJO" _Target_Length="5"/>
         </Grid>
 
         <Grid Grid.Row="1" >
