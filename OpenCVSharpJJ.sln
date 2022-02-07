@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketNet", "..\advise-ihm\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BW_to_WandAlpha", "BW_to_WandAlpha\BW_to_WandAlpha.csproj", "{53979828-286A-441B-87F5-C31D2C7E32A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standard_UC_JJO", "..\Standard_UC_JJO\Standard_UC_JJO.csproj", "{24BDEB06-738E-4392-A78D-163185A26329}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standard_UC_JJO", "..\Standard_UC_JJO\Standard_UC_.Net4_JJO\Standard_UC_JJO.csproj", "{24BDEB06-738E-4392-A78D-163185A26329}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

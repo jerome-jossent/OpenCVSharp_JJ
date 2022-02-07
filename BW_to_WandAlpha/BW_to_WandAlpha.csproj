@@ -108,13 +108,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Standard_UC_JJO\Standard_UC_JJO.csproj">
-      <Project>{24BDEB06-738E-4392-A78D-163185A26329}</Project>
-      <Name>Standard_UC_JJO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\advise-ihm\Advise_IHM\ImageProcessing\ImageProcessing.csproj">
       <Project>{45e48cad-d8c8-4a1c-bc81-0f81b0b5b1d8}</Project>
       <Name>ImageProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Standard_UC_JJO\Standard_UC_.Net4_JJO\Standard_UC_JJO.csproj">
+      <Project>{24bdeb06-738e-4392-a78d-163185a26329}</Project>
+      <Name>Standard_UC_JJO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
