@@ -2,18 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-//using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BW_to_WandAlpha
 {
@@ -22,7 +14,7 @@ namespace BW_to_WandAlpha
         const string titre = "Black and White → White and Alpha (Transparent)";
         Mat source;
         Dictionary<string, Mat> mats;
-        System.Windows.Media.Color color = Color.FromRgb(0, 0, 0);
+        Color color = Color.FromRgb(0, 0, 0);
 
         #region BINDING
         public event PropertyChangedEventHandler PropertyChanged;
@@ -130,7 +122,7 @@ namespace BW_to_WandAlpha
         ListBoxItem newItem(Mat mat, string fichier)
         {
             ListBoxItem item = new ListBoxItem();
-            System.Windows.Controls.Image img = new System.Windows.Controls.Image();
+            Image img = new Image();
             img.Source = conversion.ToImageSource(mat);
             img.Height = 100;
             img.Stretch = Stretch.Uniform;
