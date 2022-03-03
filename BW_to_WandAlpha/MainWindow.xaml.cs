@@ -54,7 +54,7 @@ namespace BW_to_WandAlpha
             DataContext = this;
         }
 
-         void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _colorPickerJJO._ColorNew += ColorNew;
             //_colorPickerJJO._SetMouseSelection(0.5, 0.5);
@@ -72,7 +72,7 @@ namespace BW_to_WandAlpha
             lb.Items.Clear();
             foreach (string fichier in fichiers)
             {
-                Mat mat = new Mat(fichier);
+                Mat mat = new Mat(fichier, ImreadModes.Unchanged);
                 source = mat;
                 mats.Add(fichier, mat);
                 lb.Items.Add(newItem(mat, fichier));
@@ -101,11 +101,18 @@ namespace BW_to_WandAlpha
             try
             {
                 ListBoxItem item = (ListBoxItem)lb.SelectedItem;
+                if (item == null)
+                    return;
+
                 string path = item.ToolTip.ToString();
                 Mat mat = mats[path];
                 Mat mat_out = ImageProcessing(mat);
 
                 string filename = System.IO.Path.GetFileNameWithoutExtension(path);
+
+                //create folder ; don't if existing
+                System.IO.Directory.CreateDirectory(_folder_OUT);
+
                 string fullfilename = _folder_OUT + "\\" + filename + ".png";
                 mat_out.SaveImage(fullfilename);
                 msg = "File created : \n\n" + fullfilename;
@@ -134,19 +141,57 @@ namespace BW_to_WandAlpha
         Mat ImageProcessing(Mat src)
         {
             Mat gray = new Mat();
-            Cv2.CvtColor(src, gray, ColorConversionCodes.RGB2GRAY);
 
-            Mat gray_not = new Mat();
-            if (ckb_not_a.IsChecked == true)
-                Cv2.BitwiseNot(gray, gray_not);
+            Mat newmat = new Mat();
+            Mat gray_not;
+            Mat[] bgra;
+            //cas  où on a une image transparente
+            switch (src.Channels())
+            {
+                case 0:
+                    return newmat;
 
-            Mat[] bgra = new Mat[] { Mat.Ones(src.Size(),MatType.CV_8UC1) * color.B,
+                case 1:
+                    return newmat;
+
+                case 2:
+                    return newmat;
+
+                case 3:
+                    Cv2.CvtColor(src, gray, ColorConversionCodes.RGB2GRAY);
+
+                    gray_not = new Mat();
+                    if (ckb_not_a.IsChecked == true)
+                        Cv2.BitwiseNot(gray, gray_not);
+
+                    bgra = new Mat[] { Mat.Ones(src.Size(),MatType.CV_8UC1) * color.B,
                                      Mat.Ones(src.Size(),MatType.CV_8UC1) * color.G,
                                      Mat.Ones(src.Size(),MatType.CV_8UC1) * color.R,
                                      (ckb_not_a.IsChecked==true)? gray_not:gray};
 
-            Mat newmat = new Mat();
-            Cv2.Merge(bgra, newmat);
+                    Cv2.Merge(bgra, newmat);
+                    return newmat;
+
+                case 4:
+                    Mat[] channels = src.Split();
+                    Mat src3channels = new Mat();
+
+                    Cv2.Merge(new Mat[] { channels[0], channels[1], channels[2] }, src3channels);
+
+                    Cv2.CvtColor(src3channels, gray, ColorConversionCodes.RGB2GRAY);
+
+                    gray_not = new Mat();
+                    if (ckb_not_a.IsChecked == true)
+                        Cv2.BitwiseNot(gray, gray_not);
+
+                    bgra = new Mat[] { Mat.Ones(src.Size(),MatType.CV_8UC1) * color.B,
+                                     Mat.Ones(src.Size(),MatType.CV_8UC1) * color.G,
+                                     Mat.Ones(src.Size(),MatType.CV_8UC1) * color.R,
+                                     channels[3]};
+
+                    Cv2.Merge(bgra, newmat);
+                    return newmat;
+            }
             return newmat;
         }
 

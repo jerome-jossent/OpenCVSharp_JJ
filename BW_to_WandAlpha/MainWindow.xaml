@@ -41,7 +41,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Standard_UC_JJO:PickFolder_JJO Height="30" _folder="{Binding _folder_IN, ElementName=mainWindow, Mode=TwoWay}" />
+                        <Standard_UC_JJO:PickFolder_JJO Height="30" _ModeTBX="False" _folder="{Binding _folder_IN, ElementName=mainWindow, Mode=TwoWay}" />
                         <Image Grid.Column="1" Source="/Images/refresh.png" Width="25" Height="25" RenderOptions.BitmapScalingMode="Fant" MouseDown="btn_ReadDirectory_click" />
                     </Grid>
 
